@@ -6,7 +6,7 @@ export default function BasicGrid() {
   return (
     <>
       <div className='cityImg-overlayText-container'>
-        <img src={city} className='cityImg' />
+        <img src={city} alt='City background' className='cityImg' />
         <div className='overlayText'>
           <Typography variant='h1' className='homeText'>
             FIND YOUR <span className='homeTextColor'>NEXT PROPERTY</span> ON
