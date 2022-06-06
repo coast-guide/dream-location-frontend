@@ -1,0 +1,32 @@
+.cityImg {
+  width: 100%;
+  height: 92vh;
+}
+
+.overlayText {
+  position: absolute;
+  z-index: 100;
+  top: 100px;
+  left: 20px;
+  text-align: center;
+}
+
+.cityImg-overlayText-container {
+  position: relative;
+}
+
+.homeText {
+  color: white;
+  font-weight: bolder;
+}
+.homeTextColor {
+  color: rgb(229, 36, 36);
+}
+
+.homeBtn {
+  font-size: 3.5rem;
+  border-radius: 15px;
+  background-color: green;
+  margin-top: 2rem;
+  box-shadow: 3px 3px 3px white;
+}
