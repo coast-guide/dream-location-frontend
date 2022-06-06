@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 //Components
 import Home from './components/Home';
@@ -10,6 +11,7 @@ function App() {
   return (
     <StyledEngineProvider injectFirst>
       <BrowserRouter>
+        <CssBaseline />
         <Routes>
           <Route path='/' element={<Home />} />
 
