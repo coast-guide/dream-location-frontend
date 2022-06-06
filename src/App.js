@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 //Components
 import Home from './components/Home';
@@ -7,15 +8,17 @@ import Listings from './components/Listings';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />} />
+    <StyledEngineProvider injectFirst>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
 
-        <Route path='/login' element={<Login />} />
+          <Route path='/login' element={<Login />} />
 
-        <Route path='/listings' element={<Listings />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path='/listings' element={<Listings />} />
+        </Routes>
+      </BrowserRouter>
+    </StyledEngineProvider>
   );
 }
 
