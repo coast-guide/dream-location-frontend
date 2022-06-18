@@ -173,6 +173,7 @@ function Listings() {
                       <img
                         src={listing.picture1}
                         style={{ height: '14rem', width: '18rem' }}
+                        alt={`listed ${listing.listing_type}`}
                       />
                       <Typography variant='body1'>
                         {listing.description.substring(0, 150)}...
