@@ -1,0 +1,37 @@
+.formContainer {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
+  border: 5px solid black;
+  padding: 3rem;
+}
+.containerItem {
+  margin-top: 1rem;
+}
+.formHeader {
+  justify-content: center;
+}
+.login-btn-container {
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-btn {
+  background-color: green;
+  color: white;
+  font-size: 1.1rem;
+  margin-left: 1rem;
+}
+.login-btn:hover {
+  background-color: blue;
+}
+.sign-up-container {
+  justify-content: center;
+  margin-top: 1rem;
+}
+.sign-up-text {
+  cursor: pointer;
+  color: green;
+}
