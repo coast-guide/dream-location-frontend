@@ -1,0 +1,71 @@
+.formContainer {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
+  border: 5px solid black;
+  padding: 3rem;
+}
+.containerItem {
+  margin-top: 1rem;
+}
+.formHeader {
+  justify-content: center;
+}
+.update-btn-container {
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.update-btn {
+  background-color: green;
+  color: white;
+  font-size: 1.1rem;
+  margin-left: 1rem;
+}
+.update-btn:hover {
+  background-color: blue;
+}
+
+.pictures-btn {
+  font-size: 0.8rem;
+  border: 1px solid black;
+  margin-left: 1rem;
+  background-color: blue;
+}
+
+.welcome-text-container {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.welcome-text {
+  color: green;
+  font-weight: bolder;
+}
+
+.profile-picture {
+  height: 10rem;
+  width: 15rem;
+}
+
+.profile-container {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 5px solid black;
+  margin-top: 1rem;
+  padding: '5px';
+}
+
+.update-profile-picture {
+  width: 5rem;
+  height: 5rem;
+}
+
+.update-profile-picture-container {
+  margin-top: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
