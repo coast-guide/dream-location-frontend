@@ -36,6 +36,11 @@ function Header() {
     setAnchorEl(null);
   };
 
+  function handleProfile() {
+    setAnchorEl(null);
+    navigate('/profile');
+  }
+
   async function handleLogout() {
     setAnchorEl(null);
     const confirmLogout = window.confirm('Are you sure you want to leave?');
@@ -76,7 +81,12 @@ function Header() {
           </Button>
         </div>
         <div className='rightNav'>
-          <Button className='propertyBtn'>Add Property</Button>
+          <Button
+            className='propertyBtn'
+            onClick={() => navigate('/addProperty')}
+          >
+            Add Property
+          </Button>
 
           {GlobalState.userIsLogged ? (
             <Button className='loginBtn' onClick={handleClick}>
@@ -98,7 +108,7 @@ function Header() {
             }}
           >
             <MenuItem>
-              <Button startIcon={<CgProfile />} onClick={handleClose}>
+              <Button startIcon={<CgProfile />} onClick={handleProfile}>
                 Profile
               </Button>
             </MenuItem>
