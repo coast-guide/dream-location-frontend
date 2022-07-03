@@ -1,0 +1,45 @@
+.formContainer {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
+  border: 5px solid black;
+  padding: 3rem;
+}
+.containerItem {
+  margin-top: 1rem;
+}
+.formHeader {
+  justify-content: center;
+}
+.placeContainer {
+  justify-content: space-between;
+}
+.MapContainer {
+  height: 35rem;
+  margin-top: 1rem;
+}
+
+.submit-btn-container,
+.pictures-btn-container {
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.submit-btn {
+  background-color: green;
+  color: white;
+  font-size: 1.1rem;
+  margin-left: 1rem;
+}
+.submit-btn:hover {
+  background-color: blue;
+}
+
+.pictures-btn {
+  font-size: 0.8rem;
+  border: 1px solid black;
+  margin-left: 1rem;
+  background-color: blue;
+}
