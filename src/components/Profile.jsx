@@ -35,6 +35,8 @@ function Profile() {
       phoneNumber: '',
       profilePic: '',
       bio: '',
+      sellerId: '',
+      sellerListings: [],
     },
     dataIsLoading: true,
   };
@@ -46,6 +48,8 @@ function Profile() {
         draft.userProfile.phoneNumber = action.profileObject.phone_number;
         draft.userProfile.profilePic = action.profileObject.profile_picture;
         draft.userProfile.bio = action.profileObject.bio;
+        draft.userProfile.sellerListings = action.profileObject.seller_listings;
+        draft.userProfile.sellerId = action.profileObject.seller;
         break;
       case 'loadingDone':
         draft.dataIsLoading = false;
@@ -75,6 +79,33 @@ function Profile() {
     getProfileInfo();
   }, [state.userId]);
 
+  function propertiesDisplay() {
+    if (state.userProfile.sellerListings.length === 0) {
+      return (
+        <Button disabled size='small'>
+          No Property
+        </Button>
+      );
+    } else if (state.userProfile.sellerListings.length === 1) {
+      return (
+        <Button
+          size='small'
+          onClick={() => navigate(`/agencies/${state.userProfile.sellerId}`)}
+        >
+          One property listed
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          size='small'
+          onClick={() => navigate(`/agencies/${state.userProfile.sellerId}`)}
+        >
+          {state.userProfile.sellerListings.length} properties
+        </Button>
+      );
+    }
+  }
   function WelcomeDisplay() {
     if (
       state.userProfile.agencyName === null ||
@@ -118,7 +149,7 @@ function Profile() {
             </Grid>
             <Grid item>
               <Typography className='welcome-text-container' variant='h5'>
-                You have x properties listed
+                You have {propertiesDisplay()}
               </Typography>
             </Grid>
           </Grid>

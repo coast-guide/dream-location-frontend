@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
+import { useImmerReducer } from 'use-immer';
 
 //React leaflet
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-  Polygon,
-} from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 
 // leaflet
 import { Icon } from 'leaflet';
@@ -25,7 +19,10 @@ import {
   CardMedia,
   CardContent,
   CircularProgress,
+  IconButton,
+  CardActions,
 } from '@mui/material';
+import RoomIcon from '@mui/icons-material/Room';
 
 //Map Icons
 import apartmentIconPng from '../Assets/MapIcons/apartment.png';
@@ -34,7 +31,6 @@ import officeIconPng from '../Assets/MapIcons/office.png';
 
 // Assets
 import './Listings.css';
-import polygonOne from './Shape';
 
 function Listings() {
   const houseIcon = new Icon({
@@ -54,11 +50,25 @@ function Listings() {
   const [latitude, setLatitude] = useState(22.643389171984662);
   const [longitiude, setLongitiude] = useState(88.43367821647634);
 
-  const polyOne = [
-    [51.505, -0.09],
-    [51.51, -0.1],
-    [51.51, -0.12],
-  ];
+  const initialState = {
+    mapInstance: null,
+  };
+
+  function reducerFunction(draft, action) {
+    switch (action.type) {
+      case 'getMap':
+        draft.mapInstance = action.mapData;
+        break;
+    }
+  }
+
+  const [state, dispatch] = useImmerReducer(reducerFunction, initialState);
+
+  function TheMapComponent() {
+    const map = useMap();
+    dispatch({ type: 'getMap', mapData: map });
+    return null;
+  }
 
   const [allListings, setAllListings] = useState([]);
   const [dataIsLoading, setDataIsLoading] = useState(true);
@@ -100,7 +110,22 @@ function Listings() {
       <Grid item xs={4}>
         {allListings.map((listing) => (
           <Card key={listing.id} className='cardStyle'>
-            <CardHeader title={listing.title} />
+            <CardHeader
+              action={
+                <IconButton
+                  aria-label='settings'
+                  onClick={() => {
+                    state.mapInstance.flyTo(
+                      [listing.latitude, listing.longitude],
+                      16
+                    );
+                  }}
+                >
+                  <RoomIcon />
+                </IconButton>
+              }
+              title={listing.title}
+            />
             <CardMedia
               component='img'
               image={listing.picture1}
@@ -125,6 +150,12 @@ function Listings() {
                 / {listing.rental_frequency}
               </Typography>
             )}
+
+            <CardActions disableSpacing>
+              <IconButton aria-label='add to favorites'>
+                {listing.seller_agency_name}
+              </IconButton>
+            </CardActions>
           </Card>
         ))}
       </Grid>
@@ -140,15 +171,8 @@ function Listings() {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
               />
+              <TheMapComponent />
 
-              <Polyline positions={polyOne} weight={10} color='green' />
-              <Polygon
-                positions={polygonOne}
-                color='yellow'
-                fillColor='blue'
-                fillOpacity='0.9'
-                opacity='0'
-              />
               {allListings.map(function (listing) {
                 function IconDisplay(listing) {
                   if (listing.listing_type === 'Apartment')
@@ -163,10 +187,7 @@ function Listings() {
                   <Marker
                     key={listing.id}
                     icon={IconDisplay(listing)}
-                    position={[
-                      listing.location.coordinates[0],
-                      listing.location.coordinates[1],
-                    ]}
+                    position={[listing.latitude, listing.longitude]}
                   >
                     <Popup>
                       <Typography variant='h5'>{listing.title}</Typography>

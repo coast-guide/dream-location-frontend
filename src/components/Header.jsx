@@ -76,7 +76,11 @@ function Header() {
           >
             <Typography variant='h6'>Listings</Typography>
           </Button>
-          <Button color='inherit' className='agenciesBtn'>
+          <Button
+            color='inherit'
+            className='agenciesBtn'
+            onClick={() => navigate('/agencies')}
+          >
             <Typography variant='h6'>Agencies</Typography>
           </Button>
         </div>
