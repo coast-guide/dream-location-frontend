@@ -21,21 +21,45 @@ function Register() {
     sendRequest: 0,
     openSnack: false,
     disabledBtn: false,
+    usernameErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
+    emailErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
+    passwordErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
+    password2HelperText: '',
   };
 
   function reducerFunction(draft, action) {
     switch (action.type) {
       case 'catchUsernameChange':
         draft.usernameValue = action.usernameChosen;
+        draft.usernameErrors.hasErrors = false;
+        draft.usernameErrors.errorMessage = '';
         break;
       case 'catchEmailChange':
         draft.emailValue = action.emailChosen;
+        draft.emailErrors.hasErrors = false;
+        draft.emailErrors.errorMessage = '';
         break;
       case 'catchPasswordChange':
         draft.passwordValue = action.passwordChosen;
+        draft.passwordErrors.hasErrors = false;
+        draft.passwordErrors.errorMessage = '';
         break;
       case 'catchPassword2Change':
         draft.password2Value = action.password2Chosen;
+        if (action.password2Chosen !== draft.passwordValue) {
+          draft.password2HelperText = 'The Passwords must match';
+        } else if (action.password2Chosen === draft.passwordValue) {
+          draft.password2HelperText = '';
+        }
         break;
       case 'changeSendRequest':
         draft.sendRequest = draft.sendRequest + 1;
@@ -52,6 +76,40 @@ function Register() {
       case 'allowTheButton':
         draft.disabledBtn = false;
         break;
+
+      case 'catchUsernameErrors':
+        if (action.usernameChosen.length === 0) {
+          draft.usernameErrors.hasErrors = true;
+          draft.usernameErrors.errorMessage = 'This Field must not be empty';
+        } else if (action.usernameChosen.length < 5) {
+          draft.usernameErrors.hasErrors = true;
+          draft.usernameErrors.errorMessage =
+            'The username must have at least 5 characters';
+        } else if (!/^([a-zA-Z0-9]+)$/.test(action.usernameChosen)) {
+          draft.usernameErrors.hasErrors = true;
+          draft.usernameErrors.errorMessage =
+            'This Field must not have special characters';
+        }
+        break;
+
+      case 'catchEmailErrors':
+        if (
+          !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            action.emailChosen
+          )
+        ) {
+          draft.emailErrors.hasErrors = true;
+          draft.emailErrors.errorMessage = 'This Field must be a valid email';
+        }
+        break;
+
+      case 'catchPasswordErrors':
+        if (action.passwordChosen.length < 8) {
+          draft.passwordErrors.hasErrors = true;
+          draft.passwordErrors.errorMessage =
+            'The password must have at least 8 characters';
+        }
+        break;
     }
   }
 
@@ -60,8 +118,15 @@ function Register() {
   function formSubmitHandler(e) {
     e.preventDefault();
     console.log('The form has been submitted');
-    dispatch({ type: 'changeSendRequest' });
-    dispatch({ type: 'disableTheBtn' });
+    if (
+      !state.usernameErrors.hasErrors &&
+      !state.emailErrors.hasErrors &&
+      !state.passwordErrors.hasErrors &&
+      state.password2HelperText === ''
+    ) {
+      dispatch({ type: 'changeSendRequest' });
+      dispatch({ type: 'disableTheBtn' });
+    }
   }
 
   useEffect(() => {
@@ -102,7 +167,7 @@ function Register() {
     }
   }, [state.openSnack]);
 
-  const Alert = React.forwardRef(function Alert(props, ref) {
+  const CustomAlert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
   });
 
@@ -125,6 +190,14 @@ function Register() {
                 usernameChosen: e.target.value,
               })
             }
+            onBlur={(e) =>
+              dispatch({
+                type: 'catchUsernameErrors',
+                usernameChosen: e.target.value,
+              })
+            }
+            error={state.usernameErrors.hasErrors}
+            helperText={state.usernameErrors.errorMessage}
           />
         </Grid>
         <Grid item container className='containerItem'>
@@ -140,6 +213,14 @@ function Register() {
                 emailChosen: e.target.value,
               })
             }
+            onBlur={(e) =>
+              dispatch({
+                type: 'catchEmailErrors',
+                emailChosen: e.target.value,
+              })
+            }
+            error={state.emailErrors.hasErrors}
+            helperText={state.emailErrors.errorMessage}
           />
         </Grid>
         <Grid item container className='containerItem'>
@@ -156,6 +237,14 @@ function Register() {
                 passwordChosen: e.target.value,
               })
             }
+            onBlur={(e) =>
+              dispatch({
+                type: 'catchPasswordErrors',
+                passwordChosen: e.target.value,
+              })
+            }
+            error={state.passwordErrors.hasErrors}
+            helperText={state.passwordErrors.errorMessage}
           />
         </Grid>
         <Grid item container className='containerItem'>
@@ -172,6 +261,7 @@ function Register() {
                 password2Chosen: e.target.value,
               })
             }
+            helperText={state.password2HelperText}
           />
         </Grid>
         <Grid item container xs={8} className='register-btn-container'>
@@ -198,9 +288,9 @@ function Register() {
         open={state.openSnack}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert severity='success'>
+        <CustomAlert severity='success'>
           you have successfully created an account{' '}
-        </Alert>
+        </CustomAlert>
       </Snackbar>
     </div>
   );
