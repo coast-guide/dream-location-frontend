@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 //MUI
@@ -9,7 +9,9 @@ import {
   Button,
   Menu,
   MenuItem,
+  Snackbar,
 } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 //Icons
 import { BiLogOutCircle } from 'react-icons/bi';
@@ -41,6 +43,8 @@ function Header() {
     navigate('/profile');
   }
 
+  const [openSnack, setOpenSnack] = useState(false);
+
   async function handleLogout() {
     setAnchorEl(null);
     const confirmLogout = window.confirm('Are you sure you want to leave?');
@@ -53,12 +57,24 @@ function Header() {
         );
         console.log(response);
         GlobalDispatch({ type: 'logout' });
-        navigate('/');
+        setOpenSnack(true);
       } catch (e) {
         console.log(e.response);
       }
     }
   }
+
+  useEffect(() => {
+    if (openSnack) {
+      setTimeout(() => {
+        navigate(0);
+      }, 1500);
+    }
+  }, [openSnack]);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
 
   return (
     <AppBar position='static' className='AppBar'>
@@ -76,7 +92,11 @@ function Header() {
           >
             <Typography variant='h6'>Listings</Typography>
           </Button>
-          <Button color='inherit' className='agenciesBtn'>
+          <Button
+            color='inherit'
+            className='agenciesBtn'
+            onClick={() => navigate('/agencies')}
+          >
             <Typography variant='h6'>Agencies</Typography>
           </Button>
         </div>
@@ -90,7 +110,7 @@ function Header() {
 
           {GlobalState.userIsLogged ? (
             <Button className='loginBtn' onClick={handleClick}>
-              {GlobalState.userUserName}
+              {GlobalState.userUsername}
             </Button>
           ) : (
             <Button className='loginBtn' onClick={() => navigate('/login')}>
@@ -119,6 +139,12 @@ function Header() {
             </MenuItem>
           </Menu>
         </div>
+        <Snackbar
+          open={openSnack}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert severity='success'>you have successfully logged out! </Alert>
+        </Snackbar>
       </Toolbar>
     </AppBar>
   );
