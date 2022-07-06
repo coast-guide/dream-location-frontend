@@ -1,10 +1,10 @@
-import { useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useImmerReducer } from 'use-immer';
 import Axios from 'axios';
 // MUI
-import { Grid, Typography, Button, TextField } from '@mui/material';
-
+import { Grid, Typography, Button, TextField, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 //css
 import './Login.css';
 
@@ -22,6 +22,8 @@ function Login() {
     passwordValue: '',
     sendRequest: 0,
     token: '',
+    openSnack: false,
+    disabledBtn: false,
   };
 
   function reducerFunction(draft, action) {
@@ -38,6 +40,18 @@ function Login() {
       case 'catchToken':
         draft.token = action.tokenValue;
         break;
+
+      case 'openTheSnack':
+        draft.openSnack = true;
+        break;
+
+      case 'disableTheBtn':
+        draft.disabledBtn = true;
+        break;
+
+      case 'allowTheButton':
+        draft.disabledBtn = false;
+        break;
     }
   }
 
@@ -47,6 +61,7 @@ function Login() {
     e.preventDefault();
     console.log('The form has been submitted');
     dispatch({ type: 'changeSendRequest' });
+    dispatch({ type: 'disableTheBtn' });
   }
 
   useEffect(() => {
@@ -76,6 +91,7 @@ function Login() {
           // navigate('/');
         } catch (error) {
           console.log(error.response);
+          dispatch({ type: 'allowTheButton' });
         }
       }
       signIn();
@@ -106,7 +122,7 @@ function Login() {
             emailInfo: response.data.email,
             IdInfo: response.data.id,
           });
-          navigate('/');
+          dispatch({ type: 'openTheSnack' });
         } catch (error) {
           console.log(error.response);
         }
@@ -116,6 +132,18 @@ function Login() {
       return () => source.cancel();
     }
   }, [state.token]);
+
+  useEffect(() => {
+    if (state.openSnack) {
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+    }
+  }, [state.openSnack]);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
 
   return (
     <div className='formContainer'>
@@ -162,6 +190,7 @@ function Login() {
             fullWidth
             type='submit'
             className='login-btn'
+            disabled={state.disabledBtn}
           >
             SIGN IN
           </Button>
@@ -176,6 +205,13 @@ function Login() {
           </span>
         </Typography>
       </Grid>
+
+      <Snackbar
+        open={state.openSnack}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity='success'>you have successfully logged in! </Alert>
+      </Snackbar>
     </div>
   );
 }
