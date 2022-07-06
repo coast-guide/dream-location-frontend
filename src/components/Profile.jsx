@@ -46,7 +46,10 @@ function Profile() {
         draft.userProfile.phoneNumber = action.profileObject.phone_number;
         draft.userProfile.profilePic = action.profileObject.profile_picture;
         draft.userProfile.bio = action.profileObject.bio;
+        draft.userProfile.sellerListings = action.profileObject.seller_listings;
+        draft.userProfile.sellerId = action.profileObject.seller;
         break;
+
       case 'loadingDone':
         draft.dataIsLoading = false;
         break;
@@ -74,6 +77,38 @@ function Profile() {
     }
     getProfileInfo();
   }, [state.userId]);
+
+  function propertiesDisplay() {
+    if (state.userProfile.sellerListings.length === 0) {
+      return (
+        <Button
+          onClick={() => navigate(`/agencies/${state.userProfile.sellerId}`)}
+          disabled
+          size='small'
+        >
+          No Property
+        </Button>
+      );
+    } else if (state.userProfile.sellerListings.length === 1) {
+      return (
+        <Button
+          onClick={() => navigate(`/agencies/${state.userProfile.sellerId}`)}
+          size='small'
+        >
+          One Property listed
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          onClick={() => navigate(`/agencies/${state.userProfile.sellerId}`)}
+          size='small'
+        >
+          {state.userProfile.sellerListings.length} Properties
+        </Button>
+      );
+    }
+  }
 
   function WelcomeDisplay() {
     if (
@@ -118,7 +153,7 @@ function Profile() {
             </Grid>
             <Grid item>
               <Typography className='welcome-text-container' variant='h5'>
-                You have x properties listed
+                You have {propertiesDisplay()}
               </Typography>
             </Grid>
           </Grid>
