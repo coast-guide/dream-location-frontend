@@ -1,6 +1,5 @@
-import { useEffect, useRef, useMemo, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useImmerReducer } from 'use-immer';
 import Axios from 'axios';
 
@@ -14,10 +13,6 @@ import defaultProfilePicture from '../Assets/default-profile-picture.png';
 import {
   Grid,
   Typography,
-  Button,
-  TextField,
-  FormControlLabel,
-  Checkbox,
   CircularProgress,
   IconButton,
   Card,
@@ -82,7 +77,7 @@ function AgencyDetail() {
       }
     }
     getProfileInfo();
-  }, [state.userId]);
+  }, []);
 
   if (state.dataIsLoading === true)
     return (
@@ -142,13 +137,15 @@ function AgencyDetail() {
               <Card>
                 <CardMedia
                   component='img'
-                  alt='listing picture'
                   height='140'
                   image={
                     `http://localhost:8000${listing.picture1}`
                       ? `http://localhost:8000${listing.picture1}`
                       : defaultProfilePicture
                   }
+                  alt='listing picture'
+                  onClick={() => navigate(`/listings/${listing.id}`)}
+                  style={{ cursor: 'pointer' }}
                 />
                 <CardContent>
                   <Typography gutterBottom variant='h5' component='div'>
