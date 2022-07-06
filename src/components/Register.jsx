@@ -43,6 +43,9 @@ function Register() {
     password2HelperText: '',
     serverMessageUsername: '',
     serverMessageEmail: '',
+    serverMessageSimilarPassword: '',
+    serverMessageCommonPassword: '',
+    serverMessageNumericPassword: '',
   };
 
   function reducerFunction(draft, action) {
@@ -63,6 +66,9 @@ function Register() {
         draft.passwordValue = action.passwordChosen;
         draft.passwordErrors.hasErrors = false;
         draft.passwordErrors.errorMessage = '';
+        draft.serverMessageSimilarPassword = '';
+        draft.serverMessageCommonPassword = '';
+        draft.serverMessageNumericPassword = '';
         break;
       case 'catchPassword2Change':
         draft.password2Value = action.password2Chosen;
@@ -128,6 +134,17 @@ function Register() {
       case 'emailExists':
         draft.serverMessageEmail = 'This email already exists';
         break;
+      case 'similarPassword':
+        draft.serverMessageSimilarPassword =
+          'The password is too similar to the username!';
+        break;
+      case 'commonPassword':
+        draft.serverMessageCommonPassword = 'The password is too common!';
+        break;
+      case 'numericPassword':
+        draft.serverMessageNumericPassword =
+          'This password must not contain only numbers!';
+        break;
     }
   }
 
@@ -177,6 +194,26 @@ function Register() {
             dispatch({
               type: 'emailExists',
             });
+          } else if (
+            error.response.data.password[0] ===
+            'The password is too similar to the username.'
+          ) {
+            dispatch({
+              type: 'similarPassword',
+            });
+          } else if (
+            error.response.data.password[0] === 'This password is too common.'
+          ) {
+            dispatch({
+              type: 'commonPassword',
+            });
+          } else if (
+            error.response.data.password[0] ===
+            'This password is entirely numeric.'
+          ) {
+            dispatch({
+              type: 'numericPassword',
+            });
           }
         }
       }
@@ -211,6 +248,21 @@ function Register() {
         )}
         {state.serverMessageEmail ? (
           <Alert severity='error'>{state.serverMessageEmail}</Alert>
+        ) : (
+          ''
+        )}
+        {state.serverMessageSimilarPassword ? (
+          <Alert severity='error'>{state.serverMessageSimilarPassword}</Alert>
+        ) : (
+          ''
+        )}
+        {state.serverMessageCommonPassword ? (
+          <Alert severity='error'>{state.serverMessageCommonPassword}</Alert>
+        ) : (
+          ''
+        )}
+        {state.serverMessageNumericPassword ? (
+          <Alert severity='error'>{state.serverMessageNumericPassword}</Alert>
         ) : (
           ''
         )}
