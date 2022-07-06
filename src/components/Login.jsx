@@ -4,6 +4,7 @@ import { useImmerReducer } from 'use-immer';
 import Axios from 'axios';
 // MUI
 import { Grid, Typography, Button, TextField, Snackbar } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import MuiAlert from '@mui/material/Alert';
 //css
 import './Login.css';
@@ -24,15 +25,18 @@ function Login() {
     token: '',
     openSnack: false,
     disabledBtn: false,
+    serverError: false,
   };
 
   function reducerFunction(draft, action) {
     switch (action.type) {
       case 'catchUsernameChange':
         draft.usernameValue = action.usernameChosen;
+        draft.serverError = false;
         break;
       case 'catchPasswordChange':
         draft.passwordValue = action.passwordChosen;
+        draft.serverError = false;
         break;
       case 'changeSendRequest':
         draft.sendRequest = draft.sendRequest + 1;
@@ -51,6 +55,10 @@ function Login() {
 
       case 'allowTheButton':
         draft.disabledBtn = false;
+        break;
+
+      case 'catchServerError':
+        draft.serverError = true;
         break;
     }
   }
@@ -92,6 +100,7 @@ function Login() {
         } catch (error) {
           console.log(error.response);
           dispatch({ type: 'allowTheButton' });
+          dispatch({ type: 'catchServerError' });
         }
       }
       signIn();
@@ -141,7 +150,7 @@ function Login() {
     }
   }, [state.openSnack]);
 
-  const Alert = React.forwardRef(function Alert(props, ref) {
+  const CustomAlert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
   });
 
@@ -151,6 +160,13 @@ function Login() {
         <Grid item container className='formHeader'>
           <Typography variant='h4'>SIGN IN</Typography>
         </Grid>
+
+        {state.serverError ? (
+          <Alert severity='error'>Incorrect username or password!</Alert>
+        ) : (
+          ''
+        )}
+
         <Grid item container className='containerItem'>
           <TextField
             id='username'
@@ -164,6 +180,7 @@ function Login() {
                 usernameChosen: e.target.value,
               })
             }
+            error={state.serverError}
           />
         </Grid>
 
@@ -181,6 +198,7 @@ function Login() {
                 passwordChosen: e.target.value,
               })
             }
+            error={state.serverError}
           />
         </Grid>
 
@@ -210,7 +228,9 @@ function Login() {
         open={state.openSnack}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert severity='success'>you have successfully logged in! </Alert>
+        <CustomAlert severity='success'>
+          you have successfully logged in!{' '}
+        </CustomAlert>
       </Snackbar>
     </div>
   );
