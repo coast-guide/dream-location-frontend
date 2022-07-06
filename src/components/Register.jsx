@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { useImmerReducer } from 'use-immer';
 
 // MUI
-import { Grid, Typography, Button, TextField } from '@mui/material';
+import { Grid, Typography, Button, TextField, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 //css
 import './Register.css';
@@ -18,6 +19,8 @@ function Register() {
     passwordValue: '',
     password2Value: '',
     sendRequest: 0,
+    openSnack: false,
+    disabledBtn: false,
   };
 
   function reducerFunction(draft, action) {
@@ -37,6 +40,18 @@ function Register() {
       case 'changeSendRequest':
         draft.sendRequest = draft.sendRequest + 1;
         break;
+
+      case 'openTheSnack':
+        draft.openSnack = true;
+        break;
+
+      case 'disableTheBtn':
+        draft.disabledBtn = true;
+        break;
+
+      case 'allowTheButton':
+        draft.disabledBtn = false;
+        break;
     }
   }
 
@@ -46,6 +61,7 @@ function Register() {
     e.preventDefault();
     console.log('The form has been submitted');
     dispatch({ type: 'changeSendRequest' });
+    dispatch({ type: 'disableTheBtn' });
   }
 
   useEffect(() => {
@@ -66,8 +82,9 @@ function Register() {
             }
           );
           console.log(response);
-          navigate('/');
+          dispatch({ type: 'openTheSnack' });
         } catch (error) {
+          dispatch({ type: 'allowTheButton' });
           console.log(error.response);
         }
       }
@@ -76,6 +93,19 @@ function Register() {
       return () => source.cancel();
     }
   }, [state.sendRequest]);
+
+  useEffect(() => {
+    if (state.openSnack) {
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+    }
+  }, [state.openSnack]);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
+
   return (
     <div className='formContainer'>
       <form onSubmit={formSubmitHandler}>
@@ -150,6 +180,7 @@ function Register() {
             fullWidth
             type='submit'
             className='register-btn'
+            disabled={state.disabledBtn}
           >
             SIGN UP
           </Button>
@@ -163,6 +194,14 @@ function Register() {
           </span>
         </Typography>
       </Grid>
+      <Snackbar
+        open={state.openSnack}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity='success'>
+          you have successfully created an account{' '}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
