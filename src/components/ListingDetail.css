@@ -1,0 +1,83 @@
+.listing-detail-container {
+  margin-left: 2rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+.breadcrumb-container {
+  margin-top: 1rem;
+}
+.breadcrumb-link {
+  cursor: pointer;
+}
+
+.image-slider-img {
+  width: 45rem;
+  height: 30rem;
+}
+
+.image-slider-container {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.listing_price {
+  font-weight: bolder;
+  color: green;
+}
+.listing-info-container {
+  padding: 1rem;
+  border: 1px solid black;
+  margin-top: 1rem;
+}
+.check-item {
+  display: flex;
+}
+.checkbox-icon {
+  color: green;
+  font-size: 2rem;
+}
+
+.profile-container {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 5px solid black;
+  margin-top: 1rem;
+  padding: 5px;
+}
+.profile-picture {
+  height: 10rem;
+  width: 15rem;
+  cursor: pointer;
+}
+.welcome-text-container {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.welcome-text {
+  color: green;
+  font-weight: bolder;
+}
+
+.map-container {
+  height: 35rem;
+}
+
+.map-component-container {
+  margin-top: 1rem;
+}
+
+.poi-info-container {
+  overflow: auto;
+  height: 35rem;
+}
+
+.poi-info {
+  margin-bottom: 0.5rem;
+  border: 1px solid black;
+}
+.distance-text {
+  font-weight: bolder;
+  color: green;
+}
