@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo, useContext } from 'react';
+import React, { useEffect, useRef, useMemo, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useImmerReducer } from 'use-immer';
 import Axios from 'axios';
@@ -7,14 +7,8 @@ import Axios from 'axios';
 import StateContext from '../Contexts/StateContext';
 
 // MUI
-import {
-  Grid,
-  Typography,
-  Button,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-} from '@mui/material';
+import { Grid, Typography, Button, TextField, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 //css
 import './Profile.css';
@@ -30,6 +24,8 @@ function ProfileUpdate(props) {
     uploadedPicture: [],
     profilePictureValue: props.userProfile.profilePic,
     sendRequest: 0,
+    openSnack: false,
+    disabledBtn: false,
   };
 
   function reducerFunction(draft, action) {
@@ -51,6 +47,17 @@ function ProfileUpdate(props) {
         break;
       case 'changeSendRequest':
         draft.sendRequest = draft.sendRequest + 1;
+        break;
+      case 'openTheSnack':
+        draft.openSnack = true;
+        break;
+
+      case 'disableTheBtn':
+        draft.disabledBtn = true;
+        break;
+
+      case 'allowTheButton':
+        draft.disabledBtn = false;
         break;
     }
   }
@@ -94,9 +101,10 @@ function ProfileUpdate(props) {
             formData
           );
           console.log(response.data);
-          navigate(0);
+          dispatch({ type: 'openTheSnack' });
         } catch (error) {
           console.log(error.response);
+          dispatch({ type: 'allowTheButton' });
         }
       }
       updateProfile();
@@ -106,6 +114,7 @@ function ProfileUpdate(props) {
   function formSubmitHandler(e) {
     e.preventDefault();
     dispatch({ type: 'changeSendRequest' });
+    dispatch({ type: 'disableTheBtn' });
   }
 
   function profilePictureDisplay() {
@@ -131,12 +140,22 @@ function ProfileUpdate(props) {
       );
     }
   }
+  useEffect(() => {
+    if (state.openSnack) {
+      setTimeout(() => {
+        navigate(0);
+      }, 1500);
+    }
+  }, [state.openSnack]);
 
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
   return (
     <>
       <div className='formContainer'>
         <form onSubmit={formSubmitHandler}>
-          <Grid item container className='formHeader'>
+          <Grid item container justifyContent='center'>
             <Typography variant='h4'>MY PROFILE</Typography>
           </Grid>
           <Grid item container className='containerItem'>
@@ -220,12 +239,21 @@ function ProfileUpdate(props) {
               variant='contained'
               fullWidth
               type='submit'
+              disabled={state.disabledBtn}
               className='update-btn'
             >
               UPDATE
             </Button>
           </Grid>
         </form>
+        <Snackbar
+          open={state.openSnack}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert severity='success'>
+            you have successfully updated your profile!
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );
