@@ -18,6 +18,7 @@ import {
   FormControlLabel,
   Checkbox,
   Snackbar,
+  Alert,
 } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
@@ -211,24 +212,56 @@ function AddProperty() {
     },
     openSnack: false,
     disabledBtn: false,
+    titleErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
+    listingTypeErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
+    propertyStatusErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
+    priceErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
+    areaErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
+    cityErrors: {
+      hasErrors: false,
+      errorMessage: '',
+    },
   };
 
   function reducerFunction(draft, action) {
     switch (action.type) {
       case 'catchTitleChange':
         draft.titleValue = action.titleChosen;
+        draft.titleErrors.hasErrors = false;
+        draft.titleErrors.errorMessage = '';
         break;
       case 'catchListingTypeChange':
         draft.listingTypeValue = action.listingTypeChosen;
+        draft.listingTypeErrors.hasErrors = false;
+        draft.listingTypeErrors.errorMessage = '';
         break;
       case 'catchDescriptionChange':
         draft.descriptionValue = action.descriptionChosen;
         break;
       case 'catchAreaChange':
         draft.areaValue = action.areaChosen;
+        draft.areaErrors.hasErrors = false;
+        draft.areaErrors.errorMessage = '';
         break;
       case 'catchCityChange':
         draft.cityValue = action.cityChosen;
+        draft.cityErrors.hasErrors = false;
+        draft.cityErrors.errorMessage = '';
         break;
       case 'catchLatitudeChange':
         draft.latitudeValue = action.latitudeChosen;
@@ -238,9 +271,13 @@ function AddProperty() {
         break;
       case 'catchPropertyStatusChange':
         draft.propertyStatusValue = action.propertyStatusChosen;
+        draft.propertyStatusErrors.hasErrors = false;
+        draft.propertyStatusErrors.errorMessage = '';
         break;
       case 'catchPriceChange':
         draft.priceValue = action.priceChosen;
+        draft.priceErrors.hasErrors = false;
+        draft.priceErrors.errorMessage = '';
         break;
       case 'catchRentalFrequencyChange':
         draft.rentalFrequencyValue = action.rentalFrequencyChosen;
@@ -311,6 +348,79 @@ function AddProperty() {
 
       case 'allowTheButton':
         draft.disabledBtn = false;
+        break;
+
+      case 'catchTitleErrors':
+        if (action.titleChosen.length === 0) {
+          draft.titleErrors.hasErrors = true;
+          draft.titleErrors.errorMessage = 'Title is required';
+        }
+        break;
+
+      case 'catchListingTypeErrors':
+        if (action.listingTypeChosen.length === 0) {
+          draft.listingTypeErrors.hasErrors = true;
+          draft.listingTypeErrors.errorMessage = 'Listing type is required';
+        }
+        break;
+
+      case 'catchPropertyStatusErrors':
+        if (action.propertyStatusChosen.length === 0) {
+          draft.propertyStatusErrors.hasErrors = true;
+          draft.propertyStatusErrors.errorMessage =
+            'Property status is required';
+        }
+        break;
+
+      case 'catchPriceErrors':
+        if (action.priceChosen.length === 0) {
+          draft.priceErrors.hasErrors = true;
+          draft.priceErrors.errorMessage = 'Price is required';
+        }
+        break;
+
+      case 'catchAreaErrors':
+        if (action.areaChosen.length === 0) {
+          draft.areaErrors.hasErrors = true;
+          draft.areaErrors.errorMessage = 'Area is required';
+        }
+        break;
+
+      case 'catchCityErrors':
+        if (action.cityChosen.length === 0) {
+          draft.cityErrors.hasErrors = true;
+          draft.cityErrors.errorMessage = 'City is required';
+        }
+        break;
+
+      case 'emptyTitle':
+        draft.titleErrors.hasErrors = true;
+        draft.titleErrors.errorMessage = 'Title is required';
+        break;
+
+      case 'emptyListingType':
+        draft.listingTypeErrors.hasErrors = true;
+        draft.listingTypeErrors.errorMessage = 'Listing type is required';
+        break;
+
+      case 'emptyPropertyStatus':
+        draft.propertyStatusErrors.hasErrors = true;
+        draft.propertyStatusErrors.errorMessage = 'Property status is required';
+        break;
+
+      case 'emptyPrice':
+        draft.priceErrors.hasErrors = true;
+        draft.priceErrors.errorMessage = 'Price is required';
+        break;
+
+      case 'emptyArea':
+        draft.areaErrors.hasErrors = true;
+        draft.areaErrors.errorMessage = 'Area is required';
+        break;
+
+      case 'emptyCity':
+        draft.cityErrors.hasErrors = true;
+        draft.cityErrors.errorMessage = 'City is required';
         break;
     }
   }
@@ -535,8 +645,37 @@ function AddProperty() {
   function formSubmitHandler(e) {
     e.preventDefault();
     console.log('The form has been submitted');
-    dispatch({ type: 'changeSendRequest' });
-    dispatch({ type: 'disableTheBtn' });
+    if (
+      !state.titleErrors.hasErrors &&
+      !state.listingTypeErrors.hasErrors &&
+      !state.propertyStatusErrors.hasErrors &&
+      !state.priceErrors.hasErrors &&
+      !state.areaErrors.hasErrors &&
+      !state.cityErrors.hasErrors &&
+      state.latitudeValue &&
+      state.longitudeValue
+    ) {
+      dispatch({ type: 'changeSendRequest' });
+      dispatch({ type: 'disableTheBtn' });
+    } else if (state.titleValue === '') {
+      dispatch({ type: 'emptyTitle' });
+      window.scrollTo(0, 0);
+    } else if (state.listingTypeValue === '') {
+      dispatch({ type: 'emptyListingType' });
+      window.scrollTo(0, 0);
+    } else if (state.propertyStatusValue === '') {
+      dispatch({ type: 'emptyPropertyStatus' });
+      window.scrollTo(0, 0);
+    } else if (state.priceValue === '') {
+      dispatch({ type: 'emptyPrice' });
+      window.scrollTo(0, 0);
+    } else if (state.areaValue === '') {
+      dispatch({ type: 'emptyArea' });
+      window.scrollTo(0, 0);
+    } else if (state.cityValue === '') {
+      dispatch({ type: 'emptyCity' });
+      window.scrollTo(0, 0);
+    }
   }
 
   useEffect(() => {
@@ -653,7 +792,7 @@ function AddProperty() {
     }
   }, [state.openSnack]);
 
-  const Alert = React.forwardRef(function Alert(props, ref) {
+  const CustomAlert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
   });
 
@@ -676,6 +815,14 @@ function AddProperty() {
                 titleChosen: e.target.value,
               })
             }
+            onBlur={(e) =>
+              dispatch({
+                type: 'catchTitleErrors',
+                titleChosen: e.target.value,
+              })
+            }
+            error={state.titleErrors.hasErrors}
+            helperText={state.titleErrors.errorMessage}
           />
         </Grid>
 
@@ -693,6 +840,14 @@ function AddProperty() {
                   listingTypeChosen: e.target.value,
                 })
               }
+              onBlur={(e) =>
+                dispatch({
+                  type: 'catchListingTypeErrors',
+                  listingTypeChosen: e.target.value,
+                })
+              }
+              error={state.listingTypeErrors.hasErrors}
+              helperText={state.listingTypeErrors.errorMessage}
               select
               SelectProps={{
                 native: true,
@@ -718,6 +873,14 @@ function AddProperty() {
                   propertyStatusChosen: e.target.value,
                 })
               }
+              onBlur={(e) =>
+                dispatch({
+                  type: 'catchPropertyStatusErrors',
+                  propertyStatusChosen: e.target.value,
+                })
+              }
+              error={state.propertyStatusErrors.hasErrors}
+              helperText={state.propertyStatusErrors.errorMessage}
               select
               SelectProps={{
                 native: true,
@@ -773,6 +936,14 @@ function AddProperty() {
                   priceChosen: e.target.value,
                 })
               }
+              onBlur={(e) =>
+                dispatch({
+                  type: 'catchPriceErrors',
+                  priceChosen: e.target.value,
+                })
+              }
+              error={state.priceErrors.hasErrors}
+              helperText={state.priceErrors.errorMessage}
             />
           </Grid>
         </Grid>
@@ -914,6 +1085,14 @@ function AddProperty() {
                   areaChosen: e.target.value,
                 })
               }
+              onBlur={(e) =>
+                dispatch({
+                  type: 'catchAreaErrors',
+                  areaChosen: e.target.value,
+                })
+              }
+              error={state.areaErrors.hasErrors}
+              helperText={state.areaErrors.errorMessage}
               select
               SelectProps={{
                 native: true,
@@ -940,6 +1119,14 @@ function AddProperty() {
                   cityChosen: e.target.value,
                 })
               }
+              onBlur={(e) =>
+                dispatch({
+                  type: 'catchCityErrors',
+                  cityChosen: e.target.value,
+                })
+              }
+              error={state.cityErrors.hasErrors}
+              helperText={state.cityErrors.errorMessage}
               select
               SelectProps={{
                 native: true,
@@ -961,6 +1148,20 @@ function AddProperty() {
                 : ''}
             </TextField>
           </Grid>
+        </Grid>
+
+        {/* Map */}
+        <Grid item container className='location-check-container'>
+          {state.latitudeValue && state.longitudeValue ? (
+            <Alert severity='success'>
+              Your property is located @ {state.latitudeValue},{' '}
+              {state.longitudeValue}
+            </Alert>
+          ) : (
+            <Alert severity='warning'>
+              Locate Your property on the map before submitting this form.
+            </Alert>
+          )}
         </Grid>
 
         <Grid item container className='MapContainer'>
@@ -1025,9 +1226,9 @@ function AddProperty() {
         open={state.openSnack}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert severity='success'>
+        <CustomAlert severity='success'>
           you have successfully added your property!{' '}
-        </Alert>
+        </CustomAlert>
       </Snackbar>
     </div>
   );
