@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo, useContext } from 'react';
+import React, { useEffect, useRef, useMemo, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useImmerReducer } from 'use-immer';
 import Axios from 'axios';
@@ -17,7 +17,9 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
+  Snackbar,
 } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 //css
 import './AddProperty.css';
@@ -207,6 +209,8 @@ function AddProperty() {
       agencyName: '',
       phoneNumber: '',
     },
+    openSnack: false,
+    disabledBtn: false,
   };
 
   function reducerFunction(draft, action) {
@@ -295,6 +299,18 @@ function AddProperty() {
       case 'catchUserProfileInfo':
         draft.userProfile.agencyName = action.profileObject.agency_name;
         draft.userProfile.phoneNumber = action.profileObject.phone_number;
+        break;
+
+      case 'openTheSnack':
+        draft.openSnack = true;
+        break;
+
+      case 'disableTheBtn':
+        draft.disabledBtn = true;
+        break;
+
+      case 'allowTheButton':
+        draft.disabledBtn = false;
         break;
     }
   }
@@ -520,6 +536,7 @@ function AddProperty() {
     e.preventDefault();
     console.log('The form has been submitted');
     dispatch({ type: 'changeSendRequest' });
+    dispatch({ type: 'disableTheBtn' });
   }
 
   useEffect(() => {
@@ -555,8 +572,9 @@ function AddProperty() {
             formData
           );
           console.log(response.data);
-          navigate('/listings');
+          dispatch({ type: 'openTheSnack' });
         } catch (error) {
+          dispatch({ type: 'allowTheButton' });
           console.log(error.response);
         }
       }
@@ -587,6 +605,7 @@ function AddProperty() {
           fullWidth
           type='submit'
           className='submit-btn'
+          disabled={state.disabledBtn}
         >
           SUBMIT
         </Button>
@@ -625,6 +644,18 @@ function AddProperty() {
       );
     }
   }
+
+  useEffect(() => {
+    if (state.openSnack) {
+      setTimeout(() => {
+        navigate('/listings');
+      }, 1500);
+    }
+  }, [state.openSnack]);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  });
 
   return (
     <div className='formContainer'>
@@ -989,6 +1020,15 @@ function AddProperty() {
           {submitButtonDisplay()}
         </Grid>
       </form>
+
+      <Snackbar
+        open={state.openSnack}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity='success'>
+          you have successfully added your property!{' '}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
