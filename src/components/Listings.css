@@ -9,6 +9,7 @@
   padding-left: 1rem;
   height: 20rem;
   width: 30rem;
+  cursor: pointer;
 }
 
 .mapStyle {
