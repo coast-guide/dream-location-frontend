@@ -4,7 +4,14 @@ import Axios from 'axios';
 import { useImmerReducer } from 'use-immer';
 
 // MUI
-import { Grid, Typography, Button, TextField, Snackbar } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  Button,
+  TextField,
+  Snackbar,
+  Alert,
+} from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 //css
@@ -34,6 +41,8 @@ function Register() {
       errorMessage: '',
     },
     password2HelperText: '',
+    serverMessageUsername: '',
+    serverMessageEmail: '',
   };
 
   function reducerFunction(draft, action) {
@@ -42,11 +51,13 @@ function Register() {
         draft.usernameValue = action.usernameChosen;
         draft.usernameErrors.hasErrors = false;
         draft.usernameErrors.errorMessage = '';
+        draft.serverMessageUsername = '';
         break;
       case 'catchEmailChange':
         draft.emailValue = action.emailChosen;
         draft.emailErrors.hasErrors = false;
         draft.emailErrors.errorMessage = '';
+        draft.serverMessageEmail = '';
         break;
       case 'catchPasswordChange':
         draft.passwordValue = action.passwordChosen;
@@ -110,6 +121,13 @@ function Register() {
             'The password must have at least 8 characters';
         }
         break;
+
+      case 'usernameExists':
+        draft.serverMessageUsername = 'This username already exists';
+        break;
+      case 'emailExists':
+        draft.serverMessageEmail = 'This email already exists';
+        break;
     }
   }
 
@@ -151,6 +169,15 @@ function Register() {
         } catch (error) {
           dispatch({ type: 'allowTheButton' });
           console.log(error.response);
+          if (error.response.data.username) {
+            dispatch({
+              type: 'usernameExists',
+            });
+          } else if (error.response.data.email) {
+            dispatch({
+              type: 'emailExists',
+            });
+          }
         }
       }
       signUp();
@@ -177,6 +204,17 @@ function Register() {
         <Grid item container className='formHeader'>
           <Typography variant='h4'>CREATE AN ACCOUNT</Typography>
         </Grid>
+        {state.serverMessageUsername ? (
+          <Alert severity='error'>{state.serverMessageUsername}</Alert>
+        ) : (
+          ''
+        )}
+        {state.serverMessageEmail ? (
+          <Alert severity='error'>{state.serverMessageEmail}</Alert>
+        ) : (
+          ''
+        )}
+
         <Grid item container className='containerItem'>
           <TextField
             id='username'
