@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useImmerReducer } from 'use-immer';
 import Axios from 'axios';
+import React, { useContext, useEffect } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useImmerReducer } from 'use-immer';
 
 //contexts
 import StateContext from '../Contexts/StateContext';
@@ -13,33 +13,33 @@ import './ListingDetail.css';
 
 //Assets
 import defaultProfilePicture from '../Assets/default-profile-picture.png';
-import stadiumIconPng from '../Assets/MapIcons/stadium.png';
 import hospitalIconPng from '../Assets/MapIcons/hospital.png';
+import stadiumIconPng from '../Assets/MapIcons/stadium.png';
 import universityIconPng from '../Assets/MapIcons/university.png';
 
 //Components
 import ListingUpdate from './ListingUpdate';
 
 // React Leaflet
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import { Icon } from 'leaflet';
 
 // MUI
-import {
-  Grid,
-  Typography,
-  CircularProgress,
-  Breadcrumbs,
-  Link,
-  IconButton,
-  Button,
-  Dialog,
-  Snackbar,
-} from '@mui/material';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import PhoneIcon from '@mui/icons-material/Phone';
 import RoomIcon from '@mui/icons-material/Room';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import {
+  Breadcrumbs,
+  Button,
+  CircularProgress,
+  Dialog,
+  Grid,
+  IconButton,
+  Link,
+  Snackbar,
+  Typography,
+} from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 function ListingDetail() {

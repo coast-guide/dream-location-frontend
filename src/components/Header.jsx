@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 //MUI
 import {
   AppBar,
-  Toolbar,
-  Typography,
   Button,
   Menu,
   MenuItem,
   Snackbar,
+  Toolbar,
+  Typography,
 } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
@@ -18,8 +18,8 @@ import { BiLogOutCircle } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
 
 //Context
-import StateContext from '../Contexts/StateContext';
 import DispatchContext from '../Contexts/DispatchContext';
+import StateContext from '../Contexts/StateContext';
 
 //CSS
 import './Header.css';

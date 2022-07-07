@@ -1,7 +1,7 @@
-import { Typography, Button } from '@mui/material';
-import './Home.css';
-import city from '../Assets/city.jpg';
+import { Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import city from '../Assets/city.jpg';
+import './Home.css';
 
 export default function BasicGrid() {
   const navigate = useNavigate();

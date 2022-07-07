@@ -1,7 +1,7 @@
-import { useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useImmerReducer } from 'use-immer';
 import Axios from 'axios';
+import { useContext, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useImmerReducer } from 'use-immer';
 
 //contexts
 import StateContext from '../Contexts/StateContext';
@@ -10,17 +10,17 @@ import StateContext from '../Contexts/StateContext';
 import defaultProfilePicture from '../Assets/default-profile-picture.png';
 
 // MUI
+import PhoneIcon from '@mui/icons-material/Phone';
 import {
-  Grid,
-  Typography,
-  CircularProgress,
-  IconButton,
   Card,
-  CardMedia,
   CardActions,
   CardContent,
+  CardMedia,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Typography,
 } from '@mui/material';
-import PhoneIcon from '@mui/icons-material/Phone';
 
 //css
 import './AgencyDetail.css';

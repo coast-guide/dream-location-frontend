@@ -1,7 +1,7 @@
-import { useEffect, useRef, useMemo, useContext } from 'react';
+import Axios from 'axios';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useImmerReducer } from 'use-immer';
-import Axios from 'axios';
 
 //contexts
 import StateContext from '../Contexts/StateContext';
@@ -13,15 +13,7 @@ import defaultProfilePicture from '../Assets/default-profile-picture.png';
 import ProfileUpdate from './ProfileUpdate';
 
 // MUI
-import {
-  Grid,
-  Typography,
-  Button,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  CircularProgress,
-} from '@mui/material';
+import { Button, CircularProgress, Grid, Typography } from '@mui/material';
 
 //css
 import './Profile.css';

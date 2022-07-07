@@ -1,29 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useImmerReducer } from 'use-immer';
 
 //React leaflet
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 
 // leaflet
 import { Icon } from 'leaflet';
 
 // MUI
+import RoomIcon from '@mui/icons-material/Room';
 import {
-  Grid,
   AppBar,
-  Typography,
   Button,
   Card,
+  CardActions,
+  CardContent,
   CardHeader,
   CardMedia,
-  CardContent,
   CircularProgress,
+  Grid,
   IconButton,
-  CardActions,
+  Typography,
 } from '@mui/material';
-import RoomIcon from '@mui/icons-material/Room';
 
 //Map Icons
 import apartmentIconPng from '../Assets/MapIcons/apartment.png';
