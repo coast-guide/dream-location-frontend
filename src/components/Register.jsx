@@ -170,7 +170,7 @@ function Register() {
       async function signUp() {
         try {
           const response = await Axios.post(
-            'http://localhost:8000/api-auth-djoser/users/',
+            'https://dream-location-backend.herokuapp.com/api-auth-djoser/users/',
             {
               username: state.usernameValue,
               email: state.emailValue,

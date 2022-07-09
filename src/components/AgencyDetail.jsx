@@ -64,7 +64,7 @@ function AgencyDetail() {
     async function getProfileInfo() {
       try {
         const response = await Axios.get(
-          `http://localhost:8000/api/profiles/${params.id}/`
+          `https://dream-location-backend.herokuapp.com/api/profiles/${params.id}/`
         );
         console.log(response.data);
         dispatch({
@@ -139,8 +139,8 @@ function AgencyDetail() {
                   component='img'
                   height='140'
                   image={
-                    `http://localhost:8000${listing.picture1}`
-                      ? `http://localhost:8000${listing.picture1}`
+                    `https://dream-location-backend.herokuapp.com${listing.picture1}`
+                      ? `https://dream-location-backend.herokuapp.com${listing.picture1}`
                       : defaultProfilePicture
                   }
                   alt='listing picture'

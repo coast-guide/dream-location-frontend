@@ -77,7 +77,7 @@ function Login() {
       async function signIn() {
         try {
           const response = await Axios.post(
-            'http://localhost:8000/api-auth-djoser/token/login/',
+            'https://dream-location-backend.herokuapp.com/api-auth-djoser/token/login/',
             {
               username: state.usernameValue,
               password: state.passwordValue,
@@ -115,7 +115,7 @@ function Login() {
       async function getUserInfo() {
         try {
           const response = await Axios.get(
-            'http://localhost:8000/api-auth-djoser/users/me/',
+            'https://dream-location-backend.herokuapp.com/api-auth-djoser/users/me/',
             {
               headers: { Authorization: `Token ${state.token}` },
             },

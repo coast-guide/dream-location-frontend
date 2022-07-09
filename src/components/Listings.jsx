@@ -80,7 +80,7 @@ function Listings() {
     async function getAllListings() {
       try {
         const response = await Axios.get(
-          'http://localhost:8000/api/listings/',
+          'https://dream-location-backend.herokuapp.com/api/listings/',
           { cancelToken: source.token }
         );
         setAllListings(response.data);

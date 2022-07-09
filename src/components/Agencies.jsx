@@ -50,7 +50,9 @@ function Agencies() {
   useEffect(() => {
     async function getAgencies() {
       try {
-        const response = await Axios.get(`http://localhost:8000/api/profiles/`);
+        const response = await Axios.get(
+          `https://dream-location-backend.herokuapp.com/api/profiles/`
+        );
         console.log(response.data);
         dispatch({
           type: 'catchAgencies',

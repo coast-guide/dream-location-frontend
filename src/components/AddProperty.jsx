@@ -628,7 +628,7 @@ function AddProperty() {
     async function getProfileInfo() {
       try {
         const response = await Axios.get(
-          `http://localhost:8000/api/profiles/${GlobalState.userId}/`
+          `https://dream-location-backend.herokuapp.com/api/profiles/${GlobalState.userId}/`
         );
         console.log(response.data);
         dispatch({
@@ -707,7 +707,7 @@ function AddProperty() {
         formData.append('seller', GlobalState.userId);
         try {
           const response = await Axios.post(
-            'http://localhost:8000/api/listings/create/',
+            'https://dream-location-backend.herokuapp.com/api/listings/create/',
             formData
           );
           console.log(response.data);

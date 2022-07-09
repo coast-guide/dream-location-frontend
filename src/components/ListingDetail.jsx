@@ -103,7 +103,7 @@ function ListingDetail() {
     async function getListingInfo() {
       try {
         const response = await Axios.get(
-          `http://localhost:8000/api/listings/${params.id}/`
+          `https://dream-location-backend.herokuapp.com/api/listings/${params.id}/`
         );
         console.log(response.data);
         dispatch({
@@ -123,7 +123,7 @@ function ListingDetail() {
       async function getProfileInfo() {
         try {
           const response = await Axios.get(
-            `http://localhost:8000/api/profiles/${state.listingInfo.seller}/`
+            `https://dream-location-backend.herokuapp.com/api/profiles/${state.listingInfo.seller}/`
           );
           console.log(response.data);
           dispatch({
@@ -165,7 +165,7 @@ function ListingDetail() {
     if (confirmDelete) {
       try {
         const response = await Axios.delete(
-          `http://localhost:8000/api/listings/${params.id}/delete/`
+          `https://dream-location-backend.herokuapp.com/api/listings/${params.id}/delete/`
         );
         console.log(response.data);
         dispatch({ type: 'openTheSnack' });
