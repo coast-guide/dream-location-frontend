@@ -55,12 +55,10 @@ function Header() {
           GlobalState.userToken,
           { headers: { Authorization: 'Token '.concat(GlobalState.userToken) } }
         );
-        console.log(response);
+
         GlobalDispatch({ type: 'logout' });
         setOpenSnack(true);
-      } catch (e) {
-        console.log(e.response);
-      }
+      } catch (e) {}
     }
   }
 

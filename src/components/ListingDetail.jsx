@@ -105,14 +105,12 @@ function ListingDetail() {
         const response = await Axios.get(
           `https://dream-location-backend.herokuapp.com/api/listings/${params.id}/`
         );
-        console.log(response.data);
+
         dispatch({
           type: 'catchListingInfo',
           listingObject: response.data,
         });
-      } catch (error) {
-        console.log(error.response);
-      }
+      } catch (error) {}
     }
     getListingInfo();
   }, []);
@@ -125,15 +123,13 @@ function ListingDetail() {
           const response = await Axios.get(
             `https://dream-location-backend.herokuapp.com/api/profiles/${state.listingInfo.seller}/`
           );
-          console.log(response.data);
+
           dispatch({
             type: 'catchSellerProfileInfo',
             profileObject: response.data,
           });
           dispatch({ type: 'loadingDone' });
-        } catch (error) {
-          console.log(error.response);
-        }
+        } catch (error) {}
       }
       getProfileInfo();
     }
@@ -167,12 +163,11 @@ function ListingDetail() {
         const response = await Axios.delete(
           `https://dream-location-backend.herokuapp.com/api/listings/${params.id}/delete/`
         );
-        console.log(response.data);
+
         dispatch({ type: 'openTheSnack' });
         dispatch({ type: 'disableTheBtn' });
       } catch (error) {
         dispatch({ type: 'allowTheButton' });
-        console.log(error.response.data);
       }
     }
   }

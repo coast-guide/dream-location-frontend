@@ -152,7 +152,7 @@ function Register() {
 
   function formSubmitHandler(e) {
     e.preventDefault();
-    console.log('The form has been submitted');
+
     if (
       !state.usernameErrors.hasErrors &&
       !state.emailErrors.hasErrors &&
@@ -181,11 +181,11 @@ function Register() {
               cancelToken: source.token,
             }
           );
-          console.log(response);
+
           dispatch({ type: 'openTheSnack' });
         } catch (error) {
           dispatch({ type: 'allowTheButton' });
-          console.log(error.response);
+
           if (error.response.data.username) {
             dispatch({
               type: 'usernameExists',

@@ -66,15 +66,13 @@ function AgencyDetail() {
         const response = await Axios.get(
           `https://dream-location-backend.herokuapp.com/api/profiles/${params.id}/`
         );
-        console.log(response.data);
+
         dispatch({
           type: 'catchUserProfileInfo',
           profileObject: response.data,
         });
         dispatch({ type: 'loadingDone' });
-      } catch (error) {
-        console.log(error.response);
-      }
+      } catch (error) {}
     }
     getProfileInfo();
   }, []);

@@ -100,10 +100,9 @@ function ProfileUpdate(props) {
             `https://dream-location-backend.herokuapp.com/api/profiles/${GlobalState.userId}/update/`,
             formData
           );
-          console.log(response.data);
+
           dispatch({ type: 'openTheSnack' });
         } catch (error) {
-          console.log(error.response);
           dispatch({ type: 'allowTheButton' });
         }
       }

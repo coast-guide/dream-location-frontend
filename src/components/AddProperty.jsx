@@ -563,7 +563,7 @@ function AddProperty() {
     () => ({
       dragend() {
         const marker = markerRef.current;
-        console.log(marker.getLatLng());
+
         dispatch({
           type: 'catchLatitudeChange',
           latitudeChosen: marker.getLatLng().lat,
@@ -630,21 +630,19 @@ function AddProperty() {
         const response = await Axios.get(
           `https://dream-location-backend.herokuapp.com/api/profiles/${GlobalState.userId}/`
         );
-        console.log(response.data);
+
         dispatch({
           type: 'catchUserProfileInfo',
           profileObject: response.data,
         });
-      } catch (error) {
-        console.log(error.response);
-      }
+      } catch (error) {}
     }
     getProfileInfo();
   }, [state.userId]);
 
   function formSubmitHandler(e) {
     e.preventDefault();
-    console.log('The form has been submitted');
+
     if (
       !state.titleErrors.hasErrors &&
       !state.listingTypeErrors.hasErrors &&
@@ -710,11 +708,10 @@ function AddProperty() {
             'https://dream-location-backend.herokuapp.com/api/listings/create/',
             formData
           );
-          console.log(response.data);
+
           dispatch({ type: 'openTheSnack' });
         } catch (error) {
           dispatch({ type: 'allowTheButton' });
-          console.log(error.response);
         }
       }
       AddProperty();

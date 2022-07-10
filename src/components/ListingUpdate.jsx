@@ -155,7 +155,7 @@ function ListingUpdate(props) {
 
   function formSubmitHandler(e) {
     e.preventDefault();
-    console.log('The form has been submitted');
+
     dispatch({ type: 'changeSendRequest' });
     dispatch({ type: 'disableTheBtn' });
   }
@@ -200,11 +200,10 @@ function ListingUpdate(props) {
             `https://dream-location-backend.herokuapp.com/api/listings/${props.listingData.id}/update/`,
             formData
           );
-          console.log(response.data);
+
           dispatch({ type: 'openTheSnack' });
         } catch (error) {
           dispatch({ type: 'allowTheButton' });
-          console.log(error.response);
         }
       }
       updateProperty();

@@ -57,15 +57,13 @@ function Profile() {
         const response = await Axios.get(
           `https://dream-location-backend.herokuapp.com/api/profiles/${GlobalState.userId}/`
         );
-        console.log(response.data);
+
         dispatch({
           type: 'catchUserProfileInfo',
           profileObject: response.data,
         });
         dispatch({ type: 'loadingDone' });
-      } catch (error) {
-        console.log(error.response);
-      }
+      } catch (error) {}
     }
     getProfileInfo();
   }, [state.userId]);

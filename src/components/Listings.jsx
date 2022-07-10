@@ -85,16 +85,12 @@ function Listings() {
         );
         setAllListings(response.data);
         setDataIsLoading(false);
-      } catch (error) {
-        console.log(error.response);
-      }
+      } catch (error) {}
     }
     getAllListings();
 
     return () => source.cancel();
   }, []);
-
-  if (dataIsLoading === false) console.log(allListings[0].location);
 
   if (dataIsLoading === true)
     return (

@@ -53,15 +53,13 @@ function Agencies() {
         const response = await Axios.get(
           `https://dream-location-backend.herokuapp.com/api/profiles/`
         );
-        console.log(response.data);
+
         dispatch({
           type: 'catchAgencies',
           agenciesArray: response.data,
         });
         dispatch({ type: 'loadingDone' });
-      } catch (error) {
-        console.log(error.response);
-      }
+      } catch (error) {}
     }
     getAgencies();
   }, [state.userId]);
