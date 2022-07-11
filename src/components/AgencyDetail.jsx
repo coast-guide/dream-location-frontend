@@ -137,9 +137,7 @@ function AgencyDetail() {
                   component='img'
                   height='140'
                   image={
-                    `https://dream-location-backend.herokuapp.com${listing.picture1}`
-                      ? `https://dream-location-backend.herokuapp.com${listing.picture1}`
-                      : defaultProfilePicture
+                    listing.picture1 ? listing.picture1 : defaultProfilePicture
                   }
                   alt='listing picture'
                   onClick={() => navigate(`/listings/${listing.id}`)}
